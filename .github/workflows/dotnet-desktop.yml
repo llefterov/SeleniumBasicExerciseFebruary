@@ -1,0 +1,32 @@
+name: Run UI tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Run UI Tests for Project1
+      run: dotnet test TestProject1/TestProject1.csproj --no-build --verbosity normal
+    - name: Run UI Tests for Project2
+      run: dotnet test TestProject1/TestProject2.csproj --no-build --verbosity normal
+    - name: Run UI Tests for Project3
+      run: dotnet test TestProject1/TestProject3.csproj --no-build --verbosity normal
+
+
